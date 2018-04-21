@@ -1,7 +1,7 @@
 const http = require("http")
 const fs = require("fs")
 
-const PORT = 8000
+const PORT = 8001
 
 const routeRequest = (path, res) => {
     switch (path) {
@@ -28,51 +28,73 @@ const routeRequest = (path, res) => {
     }
 }
 
-const server = http.createServer(routeRequest)
+const server = http.createServer(handleRequest)
 
 const root = () => {
-    return "<html>" +
-        "<body><h1>Home Page</h1>" +
-        "<a href='/root'>Root</a>" +
-        "</body></html>"
+    fs.readFile('/index.html', 'UTF-8', function(err, data) {
+            if (err) throw err;
+            res.writeHead(200, { "content-Type": "text/html" })
+            res.end(data)
+        })
+        // return "<html>" +
+        //     "<body><h1>Home Page</h1>" +
+        //     "<a href='/root'>Root</a>" +
+        //     "</body></html>"
 }
 
 const foods = () => {
-    return "<html>" +
-        "<body><h1>My Favorite Foods</h1>" +
-        "<a href='/foods'>Foods</a>" +
-        "</body></html>"
+    fs.readFile('/foods.html', 'UTF-8', function(err, data) {
+            if (err) throw err;
+            res.writeHead(200, { "content-Type": "text/html" })
+            res.end(data)
+        })
+        // return "<html>" +
+        //     "<body><h1>My Favorite Foods</h1>" +
+        //     "<a href='/foods'>Foods</a>" +
+        //     "</body></html>"
 }
 
 const movies = () => {
-    return "<html>" +
-        "<body><h1>My favorite movies</h1>" +
-        "<a href='/movies'>Movies</a>" +
-        "</body></html>"
+    fs.readFile('/movies.html', 'UTF-8', function(err, data) {
+            if (err) throw err;
+            res.writeHead(200, { "content-Type": "text/html" })
+            res.end(data)
+        })
+        // return "<html>" +
+        //     "<body><h1>My favorite movies</h1>" +
+        //     "<a href='/movies'>Movies</a>" +
+        //     "</body></html>"
 }
 
 const css = () => {
-    return "<html>" +
-        "<body><h1>My Favorite CSS:</h1>" +
-        "<a href='/css'>css</a>" +
-        "</body></html>"
+    fs.readFile('/css.html', 'UTF-8', function(err, data) {
+            if (err) throw err;
+            res.writeHead(200, { "content-Type": "text/html" })
+            res.end(data)
+        })
+        // return "<html>" +
+        //     "<body><h1>My Favorite CSS:</h1>" +
+        //     "<a href='/css'>css</a>" +
+        //     "</body></html>"
 }
 
 const notFound = () => {
-    return "<html>" +
-        "<body><h1>404'd!</h1>" +
-        "<a href='/notFound'>not Found</a>" +
-        "</body></html>"
+    fs.readFile('/404.html', 'UTF-8', function(err, data) {
+            if (err) throw err;
+            res.writeHead(200, { "content-Type": "text/html" })
+            res.end(data)
+        })
+        // return "<html>" +
+        //     "<body><h1>404'd!</h1>" +
+        //     "<a href='/notFound'>not Found</a>" +
+        //     "</body></html>"
 }
 
 
 
 
 function handleRequest(req, res) {
-    fs.readFile(__dirname + "/index.html", function(err, data) {
-        res.writeHead(200, { "content-Type": "text/html" })
-        res.end(data)
-    })
+    routeRequest(req.url, res)
 }
 
 const logger = (PORT) => () => {
